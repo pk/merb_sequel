@@ -1,0 +1,42 @@
+Tue, 17 Feb 2009 18:18:42 GMT  ~  info  ~  Logfile created
+ ~ Connecting to the 'spec/test.db' database on '' using 'sqlite' ...
+ ~ SELECT * FROM `sessions` LIMIT 1
+ ~ CREATE TABLE `sessions` (`id` integer PRIMARY KEY AUTOINCREMENT, `session_id` varchar(255), `data` text, `created_at` timestamp)
+ ~ PRAGMA table_info('sessions')
+ ~ PRAGMA table_info('spec_models')
+ ~ SELECT * FROM `spec_models` LIMIT 1
+ ~ Started request handling: Tue Feb 17 18:18:42 +0000 2009
+ ~ Params: {"format"=>nil, "action"=>"set", "id"=>nil, "controller"=>"spec_controller"}
+ ~ SELECT * FROM `sessions` WHERE (`session_id` = '0122ea0941c197801647e7fe0eecfc68') LIMIT 1
+ ~ INSERT INTO `sessions` (`data`, `created_at`, `session_id`) VALUES ('{"key"
+value', '2009-02-17T18:18:42+00:00', '0122ea0941c197801647e7fe0eecfc68')
+ ~ SELECT * FROM `sessions` WHERE (`id` = 1) LIMIT 1
+ ~ {:before_filters_time=>5.3e-05, :after_filters_time=>5.2e-05, :dispatch_time=>0.012308, :action_time=>0.011426}
+ ~ 
+
+ ~ Started request handling: Tue Feb 17 18:18:42 +0000 2009
+ ~ Params: {"format"=>nil, "action"=>"get", "id"=>nil, "controller"=>"spec_controller"}
+ ~ SELECT * FROM `sessions` WHERE (`session_id` = '0122ea0941c197801647e7fe0eecfc68') LIMIT 1
+ ~ {:before_filters_time=>3.6e-05, :after_filters_time=>4.5e-05, :dispatch_time=>0.004134, :action_time=>0.003358}
+ ~ 
+
+ ~ Connecting to the 'spec/test.db' database on '' using 'sqlite' ...
+ ~ SELECT * FROM `sessions` LIMIT 1
+ ~ PRAGMA table_info('sessions')
+ ~ PRAGMA table_info('spec_models')
+ ~ SELECT * FROM `spec_models` LIMIT 1
+ ~ Started request handling: Tue Mar 03 11:31:53 +0000 2009
+ ~ Params: {"format"=>nil, "action"=>"set", "id"=>nil, "controller"=>"spec_controller"}
+ ~ SELECT * FROM `sessions` WHERE (`session_id` = '2925a5fcea47b2ae6935b20ce9901376') LIMIT 1
+ ~ INSERT INTO `sessions` (`data`, `created_at`, `session_id`) VALUES ('{"key"
+value', '2009-03-03T11:31:53+00:00', '2925a5fcea47b2ae6935b20ce9901376')
+ ~ SELECT * FROM `sessions` WHERE (`id` = 2) LIMIT 1
+ ~ {:before_filters_time=>5.3e-05, :after_filters_time=>5.5e-05, :dispatch_time=>0.012017, :action_time=>0.011215}
+ ~ 
+
+ ~ Started request handling: Tue Mar 03 11:31:53 +0000 2009
+ ~ Params: {"format"=>nil, "action"=>"get", "id"=>nil, "controller"=>"spec_controller"}
+ ~ SELECT * FROM `sessions` WHERE (`session_id` = '2925a5fcea47b2ae6935b20ce9901376') LIMIT 1
+ ~ {:before_filters_time=>4.5e-05, :after_filters_time=>4.0e-05, :dispatch_time=>0.004053, :action_time=>0.003247}
+ ~ 
+
