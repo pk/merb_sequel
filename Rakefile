@@ -18,7 +18,7 @@ GEM_EMAIL  = "wayneeseguin@gmail.com, lancecarlson@gmail.com, email@loriholden.c
 
 GEM_NAME    = "merb_sequel"
 PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-GEM_VERSION = (Merb::MORE_VERSION rescue "1.0.0") + PKG_BUILD
+GEM_VERSION = (Merb::MORE_VERSION rescue "1.0.1") + PKG_BUILD
 
 RELEASE_NAME    = "REL #{GEM_VERSION}"
 
@@ -30,15 +30,15 @@ spec = Gem::Specification.new do |s|
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
+  s.extra_rdoc_files = ["README.rdoc", "LICENSE", 'TODO']
   s.summary = PROJECT_SUMMARY
   s.description = PROJECT_DESCRIPTION
   s.author = GEM_AUTHOR
   s.email = GEM_EMAIL
   s.homepage = PROJECT_URL
   s.add_dependency("merb-core", ">= 0.9.9")
-  s.add_dependency("sequel",    ">= 1.4.0")
-  s.files = %w(LICENSE README Rakefile TODO Generators) + Dir.glob("{lib}/**/*")
+  s.add_dependency("sequel",    ">= 1.4.0", "< 2.12.0")
+  s.files = %w(LICENSE README.rdoc Rakefile TODO Generators) + Dir.glob("{lib}/**/*")
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
