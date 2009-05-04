@@ -21,6 +21,18 @@ In Merb, add it as a dependency to your config/dependencies.rb:
     
     dependency 'pk-merb_sequel', :require_as => 'merb_sequel'
 
+== Compatibility
+
+Ruby 1.8.7:
+Sequel 2.11.0:: All pass
+Sequel 2.12.0:: All pass
+Sequel 3.::     All pass
+
+Ruby 1.9.1:
+Sequel 2.11.0:: All pass excetp session spec failing due to Marshall issues.
+Sequel 2.12.0:: All pass excetp session spec failing due to Marshall issues.
+Sequel 3.::     All pass excetp session spec failing due to Marshall issues.
+
 
 == Connection options
 
