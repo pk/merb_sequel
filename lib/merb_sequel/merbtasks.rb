@@ -11,13 +11,21 @@ namespace :sequel do
 
     desc "Perform migration using migrations in schema/migrations"
     task :migrate => :sequel_env do
+      require 'sequel/extensions/migration' if /^(2.12|3)/ =~ Sequel.version
       Sequel::Migrator.apply(Sequel::Model.db, "schema/migrations", ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+    end
+
+    desc "Drop all tables"
+    task :drop_tables => :sequel_env do
+      Sequel::Model.db.drop_table *Sequel::Model.db.tables
     end
     
     desc "Drop all tables and perform migrations"
-    task :reset => :sequel_env do
-      Sequel::Model.db.drop_table *Sequel::Model.db.tables
-      Sequel::Migrator.apply(Sequel::Model.db, "schema/migrations", ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+    task :reset => [:sequel_env, :drop_tables, :migrate]
+
+    desc "Truncate all tables in database"
+    task :truncate => :sequel_env do
+      Sequel::Model.db << "TRUNCATE #{db.tables.join(', ')} CASCADE;"
     end
 
     desc "Create the database according to the config from the database.yaml. Use [username,password] if you need another user to connect to DB than in config."
@@ -49,12 +57,6 @@ namespace :sequel do
       else
         raise "Adapter #{config[:adapter]} not supported for dropping databases yet."
       end
-    end
-
-    desc "Truncate all tables in database"
-    task :truncate => :sequel_env do
-      db = Sequel::Model.db 
-      db << "TRUNCATE #{db.tables.join(', ')} CASCADE;"
     end
   end
   
