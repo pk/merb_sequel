@@ -4,7 +4,7 @@ describe 'Sequel::Model#new_record?' do
   it_should_behave_like "it has a SpecModel"
   
   it "is defined" do
-    SpecModel.instance_methods.should include 'new_record?'
+    SpecModel.instance_methods.map {|m| m.to_sym }.should include(:new_record?)
   end
   
   it "Returns true or new model" do

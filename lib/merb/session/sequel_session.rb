@@ -1,4 +1,6 @@
 require 'sequel'
+# Load extensions if we use new versions of Sequel
+require 'sequel/extensions/migration' if /^(2.12|3)/ =~ Sequel.version
 require 'merb-core/dispatch/session'
 require 'base64'
 
@@ -96,11 +98,22 @@ module Merb
       !!@data
     end
 
-    before_save do 
+    private
+
+    def prepare_data_to_save
       @values[:data] = Marshal.dump(self.data)
       if @values[:data].size > self.class.data_column_size_limit
         raise Merb::SessionMixin::SessionOverflow
-      end    
+      end
+    end
+
+    if /^(2.12|3)/ =~ Sequel.version
+      def before_save 
+        super
+        prepare_data_to_save
+      end
+    else
+      before_save :prepare_data_to_save 
     end
     
   end
