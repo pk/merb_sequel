@@ -11,7 +11,7 @@ namespace :sequel do
 
     desc "Perform migration using migrations in schema/migrations"
     task :migrate => :sequel_env do
-      require 'sequel/extensions/migration' if /^(2.12|3)/ =~ Sequel.version
+      require 'sequel/extensions/migration' if Merb::Orms::Sequel.new_sequel?
       Sequel::Migrator.apply(Sequel::Model.db, "schema/migrations", ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
     end
 

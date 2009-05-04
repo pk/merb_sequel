@@ -1,6 +1,5 @@
 require 'sequel'
-# Load extensions if we use new versions of Sequel
-require 'sequel/extensions/migration' if /^(2.12|3)/ =~ Sequel.version
+require 'sequel/extensions/migration' if Merb::Orms::Sequel.new_sequel? 
 require 'merb-core/dispatch/session'
 require 'base64'
 
@@ -79,8 +78,10 @@ module Merb
         512 # TODO - figure out how much space we actually have
       end
 
-      alias :create_table! :create_table
-      alias :drop_table! :drop_table
+      unless Merb::Orms::Sequel.new_sequel?
+        alias :create_table! :create_table
+        alias :drop_table! :drop_table
+      end
     end
 
     # Lazy-unserialize session state.
@@ -98,6 +99,15 @@ module Merb
       !!@data
     end
 
+    if Merb::Orms::Sequel.new_sequel?
+      def before_save 
+        super
+        prepare_data_to_save
+      end
+    else
+      before_save :prepare_data_to_save 
+    end
+    
     private
 
     def prepare_data_to_save
@@ -107,15 +117,6 @@ module Merb
       end
     end
 
-    if /^(2.12|3)/ =~ Sequel.version
-      def before_save 
-        super
-        prepare_data_to_save
-      end
-    else
-      before_save :prepare_data_to_save 
-    end
-    
   end
   
   class SequelSession < SessionStoreContainer

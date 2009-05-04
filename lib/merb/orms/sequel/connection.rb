@@ -10,6 +10,14 @@ module Merb
         def config_file() Merb.dir_for(:config) / "database.yml" end
         def sample_dest() Merb.dir_for(:config) / "database.yml.sample" end
         def sample_source() File.dirname(__FILE__) / "database.yml.sample" end
+
+        # Determine if we use Sequel 3 or not
+        #
+        # ==== Returns
+        # Boolean:: True if using Sequel >= 2.12.0 or False
+        def new_sequel?
+          /^(2.12|3)/ =~ ::Sequel.version
+        end
       
         def copy_sample_config
           FileUtils.cp sample_source, sample_dest unless File.exists?(sample_dest)
