@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'rake/gempackagetask'
 require "rake/rdoctask"
-require "extlib"
 require 'merb-core/tasks/merb_rake_helper'
 require "spec/rake/spectask"
 
@@ -21,8 +20,6 @@ PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
 GEM_VERSION = (Merb::MORE_VERSION rescue "1.0.1") + PKG_BUILD
 
 RELEASE_NAME    = "REL #{GEM_VERSION}"
-
-require "extlib/tasks/release"
 
 spec = Gem::Specification.new do |s|
   s.rubyforge_project = RUBY_FORGE_PROJECT
