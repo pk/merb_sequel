@@ -10,7 +10,7 @@ Sequel monthly releases.
 Plug-in should be compatible with Merb 0.9.9 and higher and Sequel 1.4.0 and 
 higher including 2.x and incoming <b>3.x</b>.
 
-Any issues please report to http://github.com/pk/merb_sequel/issues.
+<b>Any issues please report to http://github.com/pk/merb_sequel/issues</b>.
 
 
 == Install
