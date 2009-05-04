@@ -8,7 +8,7 @@ and Gem to allow faster and more independent release cycle to keep up with the
 Sequel monthly releases.
 
 Plug-in should be compatible with Merb 0.9.9 and higher and Sequel 1.4.0 and 
-higher including 2.x and incoming *3.x*.
+higher including 2.x and incoming <b>3.x</b>.
 
 Any issues please report to http://github.com/pk/merb_sequel/issues.
 
@@ -51,10 +51,10 @@ same with the resources
     merb-gen resource --orm=sequel Article
 
 
-*Note that if you have specified that you use Sequel in init.rb or environment
+<b>Note that if you have specified that you use Sequel in init.rb or environment
 specific init file (for instance, environments/development.rb)
-via _use_orm :sequel_, you don't need to specify --orm option explicitly when
-using merb-gen*.
+via use_orm :sequel, you don't need to specify --orm option explicitly when
+using merb-gen</b>.
 
 
 == Contributors
