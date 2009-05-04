@@ -6,9 +6,8 @@ if defined?(Merb::Plugins)
   
   # Connects to the database and handles session
   #
-  # Connects to the database
-  # Handels sessions
-  # Sets router to identify models using Model.pk
+  # Connects to the database and loads sequel sessions if we use them.
+  # Sets router to identify models using Model.pk.
   class Merb::Orms::Sequel::Connect < Merb::BootLoader
     after BeforeAppLoads
 
@@ -24,25 +23,13 @@ if defined?(Merb::Plugins)
 
   end
   
-  # Disconnects from the database before forking worker
-  #
-  # TODO: Make sure this is needed or not buggy
-  class Merb::Orms::Sequel::DisconnectBeforeFork < Merb::BootLoader
-    after AfterAppLoads
-    
-    def self.run
-      Merb.logger.debug "Disconnecting database connection before forking."
-      ::Sequel::DATABASES.each { |db| db.disconnect }
-    end
-    
-  end
-
   # Disconnects from DB before starting reloading classes
   #
-  # There is a problem with the pg gem driver wich causes infinite loop duing
-  # reloading process.
+  # There is a problem with the pg gem driver wich causes infinite loop
+  # duing reloading process.
   #
-  # Disconnect is one not in testing and if we use reloading classes.
+  # Disconnect only when fork_for_class_relaod is set and we're not in
+  # testing mode.
   class Merb::BootLoader::DisconnectBeforeStartTransaction < Merb::BootLoader
     before LoadClasses
 
