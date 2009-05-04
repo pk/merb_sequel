@@ -1,11 +1,26 @@
 = merb_sequel
 
-A plugin for the Merb framework that provides support for Sequel models.
+A plug-in for the Merb framework that provides support for Sequel models.
+
+This version if fork of the code in the official merb-plugins 
+(http://github.com/wycats/merb-plugins) repository. To allow faster and 
+more independent release cycle to keep up with the Sequel monthly releases.
+
+Plug-in should be compatible with Merb 0.9.9 and higher and Sequel 1.4.0 and 
+higher including 2.x and incoming *3.x*.
+
+Any issues please report to http://github.com/pk/merb_sequel/issues.
+
+
+= Install
+
+gem sources -a http://gems.github.com
+gem install pk-merb_sequel
 
 
 = Connection options
 
-Merb Sequel plugin uses config/database.yml for connection configuration.
+Merb Sequel plug-in uses config/database.yml for connection configuration.
 
 Options are:
 
@@ -23,24 +38,24 @@ Options are:
 
 = Generators
 
-After you install the plugin, merb-gen can generate Sequel models for you:
+After you install the plug-in, merb-gen can generate Sequel models for you:
 
 merb-gen model --orm=sequel Article
 
-same with resources
+same with the resources
 
 merb-gen resource --orm=sequel Article
 
 
-Note that if you have specified that you use Sequel in init.rb or environment
+*Note that if you have specified that you use Sequel in init.rb or environment
 specific init file (for instance, environments/development.rb)
-via use_orm :sequel, you need no specify --orm option explicitly when
-using merb-gen.
+via _use_orm :sequel_, you don't need to specify --orm option explicitly when
+using merb-gen*.
 
 
 = Contributors
 
-Originally written by Duane Johnson (canadaduane@gmail.com).
+Originally written by Duane Johnson (canadaduane at gmail.com).
 
 Contributions by:
 * Wayne E. Seguin
@@ -51,4 +66,4 @@ Contributions by:
 * e-mac
 * Piotr Usewicz
 
-Maintained by Michael S. Klishin (michael at novemberain.com)
+Maintained by Pavel Kunc (pavel.kunc at gmail.com)
