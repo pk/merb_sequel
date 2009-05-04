@@ -8,7 +8,7 @@ and Gem to allow faster and more independent release cycle to keep up with the
 Sequel monthly releases.
 
 Plug-in should be compatible with Merb 0.9.9 and higher and Sequel 1.4.0 and 
-higher including 2.x and incoming <b>3.x</b>.
+higher including 2.x.x and incoming <b>3.0.0</b>.
 
 <b>Any issues please report to http://github.com/pk/merb_sequel/issues</b>.
 
@@ -26,12 +26,12 @@ In Merb, add it as a dependency to your config/dependencies.rb:
 ===Ruby 1.8.7:
 Sequel 2.11.0:: All pass
 Sequel 2.12.0:: All pass
-Sequel 3.::     All pass
+Sequel 3.0.0::  All pass
 
 ===Ruby 1.9.1:
 Sequel 2.11.0:: All pass except session spec failing due to Marshall issues.
 Sequel 2.12.0:: All pass except session spec failing due to Marshall issues.
-Sequel 3.::     All pass except session spec failing due to Marshall issues.
+Sequel 3.0.0::  All pass except session spec failing due to Marshall issues.
 
 
 == Connection options
