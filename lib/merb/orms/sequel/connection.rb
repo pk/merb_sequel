@@ -14,9 +14,9 @@ module Merb
         # Determine if we use Sequel 3 or not
         #
         # ==== Returns
-        # Boolean:: True if using Sequel >= 2.12.0 or False
+        # Bool:: True if using Sequel >= 2.12.0 or False
         def new_sequel?
-          /^(2.12|3)/ =~ ::Sequel.version
+          !!/^(2.12|3)/ =~ ::Sequel.version
         end
       
         def copy_sample_config
