@@ -15,7 +15,7 @@ Merb.start :environment => 'test',
            :merb_root => File.dirname(__FILE__)
 
 # Load extensions if we use new versions of Sequel
-require 'sequel/extensions/migration' if /^(2.12|3)/ =~ Sequel.version
+require 'sequel/extensions/migration' if Merb::Orms::Sequel.new_sequel?
 
 Spec::Runner.configure do |config|
   config.include Merb::Test::RequestHelper
