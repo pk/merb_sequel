@@ -34,6 +34,17 @@ Sequel 2.12.0:: All pass except session spec failing due to Marshall issues.
 Sequel 3.0.0::  All pass except session spec failing due to Marshall issues.
 
 
+== RSpec transactional examples
+
+If you want to cut significantly runtime of your test suite which is using 
+Sequel you can enable transactional examples. Just add following line to 
+your spec_helper.rb or any spec you want to be transactional:
+
+    require 'merb_sequel/rspec/sequel'
+
+Now <b>each example is wrapped in a Sequel transaction and when example finishes
+Sequel::Error::Rollback is raised which cause transaction to rollback</b>.
+
 == Connection options
 
 Merb Sequel plug-in uses config/database.yml for connection configuration.
