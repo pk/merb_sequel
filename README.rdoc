@@ -21,6 +21,19 @@ In Merb, add it as a dependency to your config/dependencies.rb:
     
     dependency 'pk-merb_sequel', :require_as => 'merb_sequel'
 
+<b>Because of Merb ORM plugin loading mechanism you neeed to change init.rb</b>:
+
+    use_orm :sequel
+
+to
+
+    Merb.orm = :sequel
+
+If you don't do this Merb will complain that there is no merb_sequel gem also 
+if you have merb_sequel installed it will load your system wide gem instead of
+the pk-merb_sequel gem.
+
+
 == Compatibility
 
 ===Ruby 1.8.7:
