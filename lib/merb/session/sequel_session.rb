@@ -57,10 +57,15 @@ module Merb
       # session_id<String>:: ID of the session to set.
       # data<ContainerSession>:: The session to set.
       def store_session(session_id, data)
-        if item = find(:session_id => session_id)
-          item.update(:data => data)
-        else
-          create(:session_id => session_id, :data => data, :created_at => Time.now)
+        begin
+          if item = find(:session_id => session_id)
+            item.update(:data => data)
+          else
+            item = self.new(:session_id => session_id, :data => data, :created_at => Time.now)
+            item.save
+          end
+        rescue => e
+          Merb.logger.error("#{e.message} when trying to save #{data}")
         end
       end
 
@@ -86,12 +91,13 @@ module Merb
 
     # Lazy-unserialize session state.
     def data
-      @data ||= (@values[:data] ? Marshal.load(@values[:data]) : {})
+      data = (@values[:data] ? Marshal.load(@values[:data]) : {}) if @data.nil?
+      @data
     end
     
     # Virtual attribute writer - override.
     def data=(hsh)
-      @data = hsh if hsh.is_a?(Hash)
+      super(hsh) if hsh.is_a?(Hash)
     end
 
     # Has the session been loaded yet?

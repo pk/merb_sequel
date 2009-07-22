@@ -14,10 +14,10 @@ describe Merb::SequelSession do
   end
   
   it "should persist values" do
-    response = request(url(:controller => :spec_controller, :action => :set))
+    response = request(url(:set))
     response.should be_successful
     response.body.should == 'value'
-    response = request(url(:controller => :spec_controller, :action => :get))
+    response = request(url(:get))
     response.should be_successful
     response.body.should == 'value'
   end
