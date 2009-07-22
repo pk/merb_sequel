@@ -4,6 +4,8 @@ if defined?(Merb::Plugins)
   require File.join(File.dirname(__FILE__) / "merb" / "orms" / "sequel" / "connection")
   Merb::Plugins.add_rakefiles "merb_sequel" / "merbtasks"
   
+  Sequel::Model.send(:include, Merb::Orms::Sequel::ModelExtensions)
+
   # Connects to the database and handles session
   #
   # Connects to the database and loads sequel sessions if we use them.
