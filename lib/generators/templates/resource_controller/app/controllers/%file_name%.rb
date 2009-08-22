@@ -25,9 +25,10 @@ class <%= class_name %> < Application
   # POST /<%= resource_path %>
   def create
     @<%= singular_model %> = <%= model_class_name %>.new(params[:<%= singular_model %>])
-    if @<%= singular_model %>.save
+    begin
+      @<%= singular_model %>.save
       redirect url(:<%= (modules.collect{|m| m.downcase} << singular_model).join("_") %>, @<%= singular_model %>)
-    else
+    rescue Sequel::ValidationFailed
       render :new
     end
   end
@@ -44,10 +45,11 @@ class <%= class_name %> < Application
   def update
     @<%= singular_model %> = <%= model_class_name %>[params[:id]]
     raise NotFound unless @<%= singular_model %>
-    if @<%= singular_model %>.update(params[:<%= singular_model %>])
+    begin
+      @<%= singular_model %>.update(params[:<%= singular_model %>])
       redirect url(:<%= (modules.collect{|m| m.downcase} << singular_model).join("_") %>, @<%= singular_model %>)
-    else
-      raise BadRequest
+    rescue Sequel::ValidationFailed
+      render :edit
     end
   end
 
@@ -55,9 +57,10 @@ class <%= class_name %> < Application
   def destroy
     @<%= singular_model %> = <%= model_class_name %>[params[:id]]
     raise NotFound unless @<%= singular_model %>
-    if @<%= singular_model %>.destroy
+    begin
+      @<%= singular_model %>.destroy
       redirect url(:<%= (modules.collect{|m| m.downcase} << singular_model).join("_") %>s)
-    else
+    rescue Sequel::Error
       raise BadRequest
     end
   end
