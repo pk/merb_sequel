@@ -17,7 +17,7 @@ GEM_EMAIL  = "wayneeseguin@gmail.com, lancecarlson@gmail.com, email@loriholden.c
 
 GEM_NAME    = "merb_sequel"
 PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-GEM_VERSION = "1.0.5" + PKG_BUILD
+GEM_VERSION = "1.0.6" + PKG_BUILD
 
 RELEASE_NAME    = "REL #{GEM_VERSION}"
 
