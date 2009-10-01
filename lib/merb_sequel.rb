@@ -24,11 +24,28 @@ if defined?(Merb::Plugins)
     end
 
   end
+
+  # Disconnects from DB before reaping workers
+  #
+  # We must disconnect from the DB before the worker process dies to be nice 
+  # and not cause IO blocking.
+  #
+  # Disconnect only when fork_for_class_relaod is set and we're not in
+  # testing mode.
+  Merb::BootLoader.before_worker_shutdown do
+    if Merb::Config[:fork_for_class_load] && !Merb.testing?
+      Merb.logger.info "Disconnecting database connection before worker shutdown..."
+      dbs = []
+      ::Sequel::DATABASES.each { |db| db.disconnect; dbs << db } 
+      # Cleanup disconnected databases so they can be GCed
+      dbs.each {|db| ::Sequel::DATABASES.delete(db) }
+    end
+  end
   
   # Disconnects from DB before starting reloading classes
   #
-  # There is a problem with the pg gem driver wich causes infinite loop
-  # duing reloading process.
+  # We must disconnect from the DB before the worker process dies to be nice 
+  # and not cause IO blocking.
   #
   # Disconnect only when fork_for_class_relaod is set and we're not in
   # testing mode.
@@ -37,7 +54,7 @@ if defined?(Merb::Plugins)
 
     def self.run
       if Merb::Config[:fork_for_class_load] && !Merb.testing?
-        Merb.logger.debug "Disconnecting database connection before starting transaction."
+        Merb.logger.info "Disconnecting database connection before starting transaction."
         ::Sequel::DATABASES.each { |db| db.disconnect }
       end
     end
