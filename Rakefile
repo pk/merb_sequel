@@ -7,7 +7,7 @@ require "spec/rake/spectask"
 ##############################################################################
 # Package && release
 ##############################################################################
-RUBY_FORGE_PROJECT  = "merb_sequel"
+RUBY_FORGE_PROJECT  = "pk-merb_sequel"
 PROJECT_URL         = "http://github.com/pk/merb_sequel"
 PROJECT_SUMMARY     = "Merb plugin that provides support for Sequel and Sequel::Model"
 PROJECT_DESCRIPTION = PROJECT_SUMMARY
@@ -15,7 +15,7 @@ PROJECT_DESCRIPTION = PROJECT_SUMMARY
 GEM_AUTHOR = "Wayne E. Seguin, Lance Carlson, Lori Holden, Pavel Kunc"
 GEM_EMAIL  = "wayneeseguin@gmail.com, lancecarlson@gmail.com, email@loriholden.com, pavel.kunc@gmail.com"
 
-GEM_NAME    = "merb_sequel"
+GEM_NAME    = "pk-merb_sequel"
 PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
 GEM_VERSION = "1.0.6" + PKG_BUILD
 
