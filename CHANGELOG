@@ -1,0 +1,10 @@
+== 1.0.7
+
+* Add support for ActiveModel via active_model plugin for Sequel > 3.5.0 or
+Merb::Orms::Sequel::Model::ActiveModelCompatibility module. Added
+:load_activemodel_compatibility configuration option to handle ActiveModel
+compatibility loading. See README for
+more information.
+* Removed Merb::Orms::Sequel::ModelExtensions in favour to Merb::Orms::Sequel::Model::ActiveModelCompatibility
+* Added spec.opts
+* Fixing session storage
