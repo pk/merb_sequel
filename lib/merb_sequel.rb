@@ -1,11 +1,12 @@
 if defined?(Merb::Plugins)
-  Merb::Plugins.config[:merb_sequel] = {}
-  require File.join(File.dirname(__FILE__) / "sequel_ext" / "model")
+
+  # Default settings
+  Merb::Plugins.config[:merb_sequel] = { :load_activemodel_compatibility => true }
+
+  require File.join(File.dirname(__FILE__) / "merb" / "orms" / "sequel" / "model")
   require File.join(File.dirname(__FILE__) / "merb" / "orms" / "sequel" / "connection")
   Merb::Plugins.add_rakefiles "merb_sequel" / "merbtasks"
   
-  Sequel::Model.send(:include, Merb::Orms::Sequel::ModelExtensions)
-
   # Connects to the database and handles session
   #
   # Connects to the database and loads sequel sessions if we use them.
@@ -20,7 +21,29 @@ if defined?(Merb::Plugins)
         require File.join(File.dirname(__FILE__) / "merb" / "session" / "sequel_session")
       end
       
+      # Set identifiy to use Sequel primary key field
       Merb::Router.root_behavior = Merb::Router.root_behavior.identify(Sequel::Model => :pk)
+
+      # Load compatibility extensions
+      if Merb::Plugins.config[:merb_sequel][:load_activemodel_compatibility]
+        load_activemodel_compatibility
+      end
+    end
+
+    # Load active model plugin if available
+    #
+    # Merb > 1.0.13 expects models to be ActiveModel compatible
+    # Sequel 3.5.0 added plugin to make Sequel models AtciveModel
+    # compatible.
+    #
+    # We're loading plugin to all models here if plugin is available 
+    # if the plugin is not available we must include compatibility module.
+    def self.load_activemodel_compatibility
+      begin
+        Sequel::Model.plugin :active_model
+      rescue LoadError, NoMethodError
+        Sequel::Model.send(:include, Merb::Orms::Sequel::Model::ActiveModelCompatibility)
+      end
     end
 
   end

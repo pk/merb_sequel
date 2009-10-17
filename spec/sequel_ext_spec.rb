@@ -1,16 +1,29 @@
 require File.dirname(__FILE__) + "/spec_helper"
 
-describe 'Sequel::Model#new_record?' do
-  it_should_behave_like "it has a SpecModel"
-  
-  it "is defined" do
-    SpecModel.instance_methods.map {|m| m.to_sym }.should include(:new_record?)
+CreateSpecModel.apply(Sequel::Model.db, :up)
+class SpecModel < Sequel::Model; end
+
+describe 'Merb::Orms::Sequel::Model' do
+
+  describe "active model" do
+    it "should load active model plugin when > 3.5" do
+      SpecModel.plugins.should include(Sequel::Plugins::ActiveModel)
+    end
+
+    it "should include ActiveModelCompatibility module if plugin is not available" do
+      begin
+        Sequel::Model.plugin :active_model
+        pending("For this SPEC to run and pass we need to install Sequel < 3.5") 
+      rescue LoadError, NoMethodError
+        SpecModel.ancestors.should include(Merb::Orms::Sequel::Model::ActiveModelCompatibility)
+      end
+    end
   end
-  
-  it "Returns true or new model" do
-    a = SpecModel.new
-    a.should be_new_record
-    a.save
-    a.should_not be_new_record
+
+  describe "ActiveModelCompatiblity" do
+    it "should add new_record?" do
+      m = SpecModel.new
+      m.should be_new_record
+    end
   end
 end

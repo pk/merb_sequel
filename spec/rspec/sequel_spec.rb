@@ -1,15 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require File.dirname(__FILE__) + '/../../lib/merb_sequel/rspec/sequel'
 
+CreateSpecModel.apply(Sequel::Model.db, :up)
+class SpecModel < Sequel::Model; end
+
 describe "Transaction enabled examples" do
-
-  before(:all) do
-    CreateSpecModel.apply(SpecModel.db, :up)
-  end
-
-  after(:all) do
-    CreateSpecModel.apply(SpecModel.db, :down)
-  end
 
   it "should wrap each example in transaction and rollback" do
     a = SpecModel.create(:name => 'Pavel')

@@ -53,18 +53,25 @@ use_orm :sequel
 
 == Compatibility
 
-===Ruby 1.8.7:
+=== Ruby 1.8.7:
 Sequel 2.11.0:: All pass
 Sequel 2.12.0:: All pass
 Sequel 3.0.0::  All pass
 Sequel 3.5.0::  All pass
 
-===Ruby 1.9.1:
+=== Ruby 1.9.1:
 Sequel 2.11.0:: All pass except session spec failing due to Marshall issues.
 Sequel 2.12.0:: All pass except session spec failing due to Marshall issues.
 Sequel 3.0.0::  All pass except session spec failing due to Marshall issues.
 Sequel 3.5.0::  All pass except session spec failing due to Marshall issues.
 
+=== ActiveModel compatibility
+In Merb > 1.0.13 we use ActiveModel interface for the ORM plugins. merb_sequel
+now supports this for all versions of Sequel by including compatibilit layers
+by default or loading active model plugin when using Sequel > 3.5.0
+
+You can use configuration to not load compatibility layer:
+Merb::Plugins.config[:merb_sequel][:load_activemodel_compatibility] = false
 
 == RSpec transactional examples
 
@@ -77,7 +84,11 @@ your spec_helper.rb or any spec you want to be transactional:
 Now <b>each example is wrapped in a Sequel transaction and when example finishes
 Sequel::Error::Rollback is raised which cause transaction to rollback</b>.
 
-== Connection options
+== Connection options & Settings
+
+Settings:
+
+* :load_activemodel_compatibility. By default is set to true. If set to false, ActiveModelCompatibility is not loaded.
 
 Merb Sequel plug-in uses config/database.yml for connection configuration.
 
