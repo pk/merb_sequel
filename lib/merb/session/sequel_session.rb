@@ -1,8 +1,6 @@
-# vim:set fileencoding=utf-8:
 require 'sequel'
 require 'sequel/extensions/migration' if Merb::Orms::Sequel.new_sequel? 
 require 'merb-core/dispatch/session'
-require 'base64'
 
 module Merb
 
@@ -50,7 +48,7 @@ module Merb
       # ContainerSession:: The session corresponding to the ID.
       def retrieve_session(session_id)
         if item = find(:session_id => session_id)
-          Marshal.load(Base64.decode64(item.data))
+          Marshal.load(item.data.unpack('m').first)
         end
       end
 
@@ -58,7 +56,7 @@ module Merb
       # session_id<String>:: ID of the session to set.
       # data<ContainerSession>:: The session to set.
       def store_session(session_id, session_data)
-        session_data = session_data.empty? ? nil : Base64.encode64(Marshal.dump(session_data))
+        session_data = session_data.empty? ? nil : [Marshal.dump(session_data)].pack('m')
         begin
           if item = self.find(:session_id => session_id)
             item.update(:data => session_data)
@@ -80,54 +78,12 @@ module Merb
           item.delete
         end
       end
-    
-      ## ==== Returns
-      ## Integer:: The maximum length of the 'data' column.
-      #def data_column_size_limit
-      #  512 # TODO - figure out how much space we actually have
-      #end
 
-      #unless Merb::Orms::Sequel.new_sequel?
-      #  alias :create_table! :create_table
-      #  alias :drop_table! :drop_table
-      #end
+      unless Merb::Orms::Sequel.new_sequel?
+        alias :create_table! :create_table
+        alias :drop_table! :drop_table
+      end
     end
-
-    # Lazy-unserialize session state.
-    #def data
-    #  data = (@values[:data] ? Marshal.load(@values[:data]) : {}) if @data.nil?
-    #  @data
-    #end
-
-    
-    # Virtual attribute writer - override.
-    #def data=(hsh)
-    #  super(hsh) if hsh.is_a?(Hash)
-    #end
-
-    # Has the session been loaded yet?
-    #def loaded?
-    #  !!@data
-    #end
-
-    #if Merb::Orms::Sequel.new_sequel?
-    #  def before_save 
-    #    super
-    #    prepare_data_to_save
-    #  end
-    #else
-    #  before_save :prepare_data_to_save 
-    #end
-    
-    #private
-
-    #def prepare_data_to_save
-    #  @values[:data] = Marshal.dump(self.data)
-    #  if @values[:data].size > self.class.data_column_size_limit
-    #    raise Merb::SessionMixin::SessionOverflow
-    #  end
-    #end
-
   end
   
   class SequelSession < SessionStoreContainer
