@@ -1,3 +1,4 @@
+# vim:set fileencoding=utf-8:
 require 'sequel'
 require 'sequel/extensions/migration' if Merb::Orms::Sequel.new_sequel? 
 require 'merb-core/dispatch/session'
@@ -5,7 +6,7 @@ require 'base64'
 
 module Merb
 
-  Merb::Plugins.config[:merb_sequel][:session_table_name] ||= "sessions"
+  Merb::Plugins.config[:merb_sequel][:session_table_name] ||= 'sessions'
 
   # Default session migration run if a sessions table does not yet exist.
   #
@@ -49,23 +50,26 @@ module Merb
       # ContainerSession:: The session corresponding to the ID.
       def retrieve_session(session_id)
         if item = find(:session_id => session_id)
-          item.data
+          Marshal.load(Base64.decode64(item.data))
         end
       end
 
       # ==== Parameters
       # session_id<String>:: ID of the session to set.
       # data<ContainerSession>:: The session to set.
-      def store_session(session_id, data)
+      def store_session(session_id, session_data)
+        session_data = session_data.empty? ? nil : Base64.encode64(Marshal.dump(session_data))
         begin
-          if item = find(:session_id => session_id)
-            item.update(:data => data)
+          if item = self.find(:session_id => session_id)
+            item.update(:data => session_data)
           else
-            item = self.new(:session_id => session_id, :data => data, :created_at => Time.now)
+            item = self.new(:session_id => session_id,
+                            :data => session_data,
+                            :created_at => Time.now)
             item.save
           end
         rescue => e
-          Merb.logger.error("#{e.message} when trying to save #{data}")
+          Merb.logger.error("#{e.message} when trying to save #{session_data}")
         end
       end
 
@@ -77,62 +81,61 @@ module Merb
         end
       end
     
-      # ==== Returns
-      # Integer:: The maximum length of the 'data' column.
-      def data_column_size_limit
-        512 # TODO - figure out how much space we actually have
-      end
+      ## ==== Returns
+      ## Integer:: The maximum length of the 'data' column.
+      #def data_column_size_limit
+      #  512 # TODO - figure out how much space we actually have
+      #end
 
-      unless Merb::Orms::Sequel.new_sequel?
-        alias :create_table! :create_table
-        alias :drop_table! :drop_table
-      end
+      #unless Merb::Orms::Sequel.new_sequel?
+      #  alias :create_table! :create_table
+      #  alias :drop_table! :drop_table
+      #end
     end
 
     # Lazy-unserialize session state.
-    def data
-      data = (@values[:data] ? Marshal.load(@values[:data]) : {}) if @data.nil?
-      @data
-    end
+    #def data
+    #  data = (@values[:data] ? Marshal.load(@values[:data]) : {}) if @data.nil?
+    #  @data
+    #end
+
     
     # Virtual attribute writer - override.
-    def data=(hsh)
-      super(hsh) if hsh.is_a?(Hash)
-    end
+    #def data=(hsh)
+    #  super(hsh) if hsh.is_a?(Hash)
+    #end
 
     # Has the session been loaded yet?
-    def loaded?
-      !!@data
-    end
+    #def loaded?
+    #  !!@data
+    #end
 
-    if Merb::Orms::Sequel.new_sequel?
-      def before_save 
-        super
-        prepare_data_to_save
-      end
-    else
-      before_save :prepare_data_to_save 
-    end
+    #if Merb::Orms::Sequel.new_sequel?
+    #  def before_save 
+    #    super
+    #    prepare_data_to_save
+    #  end
+    #else
+    #  before_save :prepare_data_to_save 
+    #end
     
-    private
+    #private
 
-    def prepare_data_to_save
-      @values[:data] = Marshal.dump(self.data)
-      if @values[:data].size > self.class.data_column_size_limit
-        raise Merb::SessionMixin::SessionOverflow
-      end
-    end
+    #def prepare_data_to_save
+    #  @values[:data] = Marshal.dump(self.data)
+    #  if @values[:data].size > self.class.data_column_size_limit
+    #    raise Merb::SessionMixin::SessionOverflow
+    #  end
+    #end
 
   end
   
   class SequelSession < SessionStoreContainer
-    
     # The session store type
     self.session_store_type = :sequel
     
     # The store object is the model class itself
     self.store = SequelSessionStore
-    
   end
 
 end

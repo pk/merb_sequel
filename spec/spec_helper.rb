@@ -25,6 +25,8 @@ require File.join( File.dirname(__FILE__), 'spec_model')
 require File.join( File.dirname(__FILE__), 'spec_controller')
 
 Merb::Router.prepare do
-  match('/set').to(:controller => :spec_controller, :action => :set).name(:set)
+  match('/change').to(:controller => :spec_controller, :action => :change).name(:change)
+  match('/clear').to(:controller => :spec_controller, :action => :clear).name(:clear)
   match('/get').to(:controller => :spec_controller, :action => :get).name(:get)
+  match('/set').to(:controller => :spec_controller, :action => :set).name(:set)
 end
