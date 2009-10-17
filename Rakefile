@@ -17,7 +17,7 @@ GEM_EMAIL  = "wayneeseguin@gmail.com, lancecarlson@gmail.com, email@loriholden.c
 
 GEM_NAME    = "pk-merb_sequel"
 PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-GEM_VERSION = "1.0.7" + PKG_BUILD
+GEM_VERSION = "1.0.8" + PKG_BUILD
 
 RELEASE_NAME    = "REL #{GEM_VERSION}"
 
@@ -34,7 +34,7 @@ spec = Gem::Specification.new do |s|
   s.email = GEM_EMAIL
   s.homepage = PROJECT_URL
   s.add_dependency("merb-core", ">= 0.9.9")
-  s.add_dependency("sequel",    ">= 1.4.0")
+  s.add_dependency("sequel",    ">= 2.7.0")
   s.files = %w(CHANGELOG LICENSE README.rdoc Rakefile TODO Generators) + Dir.glob("{lib}/**/*")
 end
 
