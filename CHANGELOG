@@ -1,3 +1,9 @@
+== 1.0.9 "Get official" 2009-11-10
+
+* Moved to gihub.com/merb and to merb_sequel
+* Added Merb::Sequel::VERSION constant
+* Moved to jeweler to match with Merb
+
 == 1.0.8
 
 * Dropped support for Sequel versions < 2.7.0
