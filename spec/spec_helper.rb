@@ -1,14 +1,18 @@
-$:.unshift File.join(File.dirname(__FILE__), "..", "lib")
 require 'rubygems'
-require 'merb-core'
-require 'spec'
-require 'sequel'
-require 'merb_sequel'
 
-Merb.start(:environment => 'test',
-           :adapter => 'runner',
+# Use current merb-core sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb/merb-core/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
+require "merb-core"
+require "sequel"
+require "merb_sequel"
+
+Merb.start(:adapter       => 'runner',
+           :log_level     => :error,
+           :merb_root     => File.dirname(__FILE__),
            :session_store => 'sequel',
-           :merb_root => File.dirname(__FILE__))
+           :environment   => 'test'
+          )
 
 # Load extensions if we use new versions of Sequel
 require 'sequel/extensions/migration' if Merb::Orms::Sequel.new_sequel?

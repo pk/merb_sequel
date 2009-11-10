@@ -1,74 +1,48 @@
-require 'rubygems'
-require 'rake/gempackagetask'
-require "rake/rdoctask"
-require 'merb-core/tasks/merb_rake_helper'
-require "spec/rake/spectask"
+require "rubygems"
+require "rake"
 
-##############################################################################
-# Package && release
-##############################################################################
-RUBY_FORGE_PROJECT  = "pk-merb_sequel"
-PROJECT_URL         = "http://github.com/pk/merb_sequel"
-PROJECT_SUMMARY     = "Merb plugin that provides support for Sequel and Sequel::Model"
-PROJECT_DESCRIPTION = PROJECT_SUMMARY
+# Assume a typical dev checkout to fetch the current merb-core version
+require File.expand_path('../../merb/merb-core/lib/merb-core/version', __FILE__)
 
-GEM_AUTHOR = "Wayne E. Seguin, Lance Carlson, Lori Holden, Pavel Kunc"
-GEM_EMAIL  = "wayneeseguin@gmail.com, lancecarlson@gmail.com, email@loriholden.com, pavel.kunc@gmail.com"
+# Load this library's version information
+require File.expand_path('../lib/merb_sequel/version', __FILE__)
 
-GEM_NAME    = "pk-merb_sequel"
-PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-GEM_VERSION = "1.0.8" + PKG_BUILD
+begin
+  require 'jeweler'
 
-RELEASE_NAME    = "REL #{GEM_VERSION}"
-
-spec = Gem::Specification.new do |s|
-  s.rubyforge_project = RUBY_FORGE_PROJECT
-  s.name = GEM_NAME
-  s.version = GEM_VERSION
-  s.platform = Gem::Platform::RUBY
-  s.has_rdoc = true
-  s.extra_rdoc_files = ["README.rdoc", "LICENSE", 'TODO']
-  s.summary = PROJECT_SUMMARY
-  s.description = PROJECT_DESCRIPTION
-  s.author = GEM_AUTHOR
-  s.email = GEM_EMAIL
-  s.homepage = PROJECT_URL
-  s.add_dependency("merb-core", ">= 0.9.9")
-  s.add_dependency("sequel",    ">= 2.7.0")
-  s.files = %w(CHANGELOG LICENSE README.rdoc Rakefile TODO Generators) + Dir.glob("{lib}/**/*")
-end
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-desc "Install the gem"
-task :install do
-  Merb::RakeHelper.install(GEM_NAME, :version => GEM_VERSION)
-end
-
-desc "Uninstall the gem"
-task :uninstall do
-  Merb::RakeHelper.uninstall(GEM_NAME, :version => GEM_VERSION)
-end
-
-desc "Create a gemspec file"
-task :gemspec do
-  File.open("#{GEM_NAME}.gemspec", "w") do |file|
-    file.puts spec.to_ruby
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.version     = Merb::Sequel::VERSION
+    gemspec.name        = "merb_sequel"
+    gemspec.description = "Merb plugin that provides support for Sequel"
+    gemspec.summary     = "Merb plugin that provides support for Sequel"
+    gemspec.authors     = [ "Wayne E. Seguin", "Lance Carlson", "Lori Holden", "Pavel Kunc" ]
+    gemspec.email       = "wayneeseguin@gmail.com, lancecarlson@gmail.com, email@loriholden.com, pavel.kunc@gmail.com"
+    gemspec.homepage    = "http://github.com/merb/merb_sequel"
+    gemspec.files       = %w(CHANGELOG LICENSE Rakefile README.rdoc TODO Generators) + Dir['{lib,spec}/**/*']
+    # Runtime dependencies
+    gemspec.add_dependency "merb-core", ">= 0.9.9"
+    gemspec.add_dependency "sequel",    ">= 2.7.0"
+    # Development dependencies
+    gemspec.add_development_dependency "rspec", ">= 1.2.9"
   end
+
+  Jeweler::GemcutterTasks.new
+
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-desc "Run all examples (or a specific spec with TASK=xxxx)"
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_opts  = ["-cfs"]
-  t.spec_files = begin
-    if ENV["TASK"] 
-      ENV["TASK"].split(',').map { |task| "spec/**/#{task}_spec.rb" }
-    else
-      FileList['spec/**/*_spec.rb']
-    end
-  end
+require 'spec/rake/spectask'
+Spec::Rake::SpecTask.new(:spec) do |spec|
+  spec.spec_opts << '--options' << 'spec/spec.opts' if File.exists?('spec/spec.opts')
+  spec.libs << 'lib' << 'spec'
+  spec.spec_files = FileList['spec/**/*_spec.rb']
+end
+
+Spec::Rake::SpecTask.new(:rcov) do |spec|
+  spec.libs << 'lib' << 'spec'
+  spec.pattern = 'spec/**/*_spec.rb'
+  spec.rcov = true
 end
 
 desc 'Default: run spec examples'
