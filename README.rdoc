@@ -2,18 +2,22 @@
 
 A plug-in for the Merb framework that provides support for Sequel models.
 
-This is fork of the code in the official merb-plugins 
-(http://github.com/wycats/merb-plugins) repository. I did separate repository 
-and Gem to allow faster and more independent release cycle to keep up with the 
-Sequel monthly releases.
+If you use my fork on github.com/pk/merb_sequel <b>please use again the official
+repository</b> on github.com/merb/merb_sequel. I'm now updating the official repository.
 
-Plug-in is compatible with Merb 0.9.9 and higher and Sequel 1.4.0 and 
+Plug-in is compatible with Merb 0.9.9 and higher and Sequel 2.7.0 and 
 higher including 2.x.x and <b>3.x.x</b>.
 
-<b>Any issues please report to http://github.com/pk/merb_sequel/issues</b>.
+<b>Any issues please report to https://merb.lighthouseapp.com/projects/7588-merb-plugins</b>.
 
 
 == Install
+<b>Since 1.0.9 you can install official Merb gem</b>:
+
+gem install merb_sequel --source http://gemcutter.org
+
+=== Following gems are RETIRED!!!
+
 Since version 1.0.6 I've moved gem hosting to Gemcutter. So now you need 
 to install gem with:
 
@@ -25,26 +29,14 @@ gem install pk-merb_sequel --source http://gems.github.com
 
 
 === Merb < 1.1
-Add pk-merb_sequel as a dependency to your <b>config/dependencies.rb</b>:
+Add merb_sequel as a dependency to your <b>config/dependencies.rb</b>:
 
-dependency 'pk-merb_sequel', :require_as => 'merb_sequel'
-
-<b>Because of Merb < 1.1 ORM plugin loading mechanism you neeed to change init.rb</b>:
-
-use_orm :sequel
-
-to
-
-Merb.orm = :sequel
-
-If you don't do this Merb will complain that there is no merb_sequel gem also 
-if you have merb_sequel installed it will load your system wide gem instead of
-the pk-merb_sequel gem.
+dependency 'merb_sequel'
 
 
 === Merb >= 1.1, add it as a dependency to your <b>Gemfile</b>:
     
-gem 'pk-merb_sequel', :require_as => 'merb_sequel'
+gem 'merb_sequel'
 
 Add Sequel as you ORM of choice to init.rb:
 
@@ -58,12 +50,14 @@ Sequel 2.11.0:: All pass
 Sequel 2.12.0:: All pass
 Sequel 3.0.0::  All pass
 Sequel 3.5.0::  All pass
+Sequel 3.6.0::  All pass
 
 === Ruby 1.9.1:
-Sequel 2.11.0:: All pass except session spec failing due to Marshall issues.
-Sequel 2.12.0:: All pass except session spec failing due to Marshall issues.
-Sequel 3.0.0::  All pass except session spec failing due to Marshall issues.
-Sequel 3.5.0::  All pass except session spec failing due to Marshall issues.
+Sequel 2.11.0:: All pass
+Sequel 2.12.0:: All pass
+Sequel 3.0.0::  All pass
+Sequel 3.5.0::  All pass
+Sequel 3.6.0::  All pass
 
 === ActiveModel compatibility
 In Merb > 1.0.13 we use ActiveModel interface for the ORM plugins. merb_sequel
