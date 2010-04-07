@@ -1,5 +1,3 @@
-require 'sequel'
-
 if defined?(Merb::Plugins)
 
   # Default settings
