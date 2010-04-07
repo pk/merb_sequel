@@ -7,3 +7,4 @@
 .svn/*
 spec/log/*
 pkg
+*.gem
