@@ -91,4 +91,7 @@ if defined?(Merb::Plugins)
   Merb.add_generators generators / :model
   Merb.add_generators generators / :resource_controller
   Merb.add_generators generators / :session_migration
+
+  # Sets Sequel as ORM
+  Merb.orm = :sequel
 end
