@@ -1,5 +1,9 @@
-== 1.0.10 "??" ???
+== 1.1.0 2010-04-08
 
+* Added support for Merb 1.2 (set Merb#orm when requirede)
+* Removing Jeweler and switched from generated gemspec to normal one
+* Webrat API fixes in session spec
+* Removing crud from the spechelper such as RubyGems
 * Updating README to match latest state
 
 == 1.0.9 "Get official" 2009-11-10
