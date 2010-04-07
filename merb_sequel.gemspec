@@ -19,8 +19,8 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = ['README.rdoc', 'LICENSE', 'TODO']
   gem.files = Dir['Rakefile', '{lib,spec}/**/*', 'README*', 'LICENSE*', 'TODO*'] & `git ls-files -z`.split("\0")
 
-  gem.add_dependency('merb-core', '~> 1.1.0')
-  gem.add_dependency('sequel', '~> 2.7.0')
+  gem.add_dependency('merb-core', '>= 1.1.0')
+  gem.add_dependency('sequel', '>= 2.7.0')
   gem.add_development_dependency('rspec')
   gem.add_development_dependency('sqlite3-ruby')
   gem.add_development_dependency('webrat')
