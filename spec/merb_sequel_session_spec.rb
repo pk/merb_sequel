@@ -14,38 +14,38 @@ describe Merb::SequelSession do
   end
   
   it "should persist values" do
-    response = request(url(:set))
+    response = visit(url(:set))
     response.should be_successful
     response.body.should == 'value'
 
-    response = request(url(:get))
+    response = visit(url(:get))
     response.should be_successful
     response.body.should == 'value'
   end
 
   it "should persist empty data" do
-    response = request(url(:set))
+    response = visit(url(:set))
     response.should be_successful
     response.body.should == 'value'
 
-    response = request(url(:clear))
+    response = visit(url(:clear))
     response.should be_successful
 
-    response = request(url(:get))
+    response = visit(url(:get))
     response.should be_successful
     response.body.should be_empty
   end
  
   it "should allow changes" do
-    response = request(url(:set))
+    response = visit(url(:set))
     response.should be_successful
     response.body.should == 'value'
 
-    response = request(url(:change))
+    response = visit(url(:change))
     response.should be_successful
     response.body.should == 'changed'
 
-    response = request(url(:get))
+    response = visit(url(:get))
     response.should be_successful
     response.body.should == 'changed'
   end
