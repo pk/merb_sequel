@@ -1,11 +1,8 @@
-require 'rubygems'
-
 # Use current merb-core sources if running from a typical dev checkout.
 lib = File.expand_path('../../../merb/merb-core/lib', __FILE__)
 $LOAD_PATH.unshift(lib) if File.directory?(lib)
-require "merb-core"
-require "sequel"
-require "merb_sequel"
+require 'merb-core'
+require 'merb_sequel'
 
 Merb.start(:adapter       => 'runner',
            :log_level     => :error,
