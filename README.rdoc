@@ -42,6 +42,13 @@ Add Sequel as you ORM of choice to init.rb:
 
 use_orm :sequel
 
+=== Merb >= 1.2, add it as a dependency to your <b>Gemfile</b>:
+    
+gem 'merb_sequel'
+
+To activate the gem and set all needed to use Sequel just use:
+
+require 'merb_sequel'
 
 == Compatibility
 
