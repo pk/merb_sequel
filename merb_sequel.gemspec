@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.has_rdoc = true 
   gem.require_paths = ['lib']
   gem.extra_rdoc_files = ['README.rdoc', 'LICENSE', 'TODO']
-  gem.files = Dir['Rakefile', '{lib,spec}/**/*', 'README*', 'LICENSE*', 'TODO*'] & `git ls-files -z`.split("\0")
+  gem.files = Dir['Generators', 'Rakefile', '{lib,spec}/**/*', 'README*', 'LICENSE*', 'TODO*'] & `git ls-files -z`.split("\0")
 
   gem.add_dependency('merb-core', '>= 1.1.0')
   gem.add_dependency('sequel', '>= 2.7.0')
