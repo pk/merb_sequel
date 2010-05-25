@@ -1,3 +1,7 @@
+== 1.1.1 2010-05-25
+
+* Bugfixing broken gemspec which missed the Generators
+
 == 1.1.0 2010-04-08
 
 * Added support for Merb 1.2 (set Merb#orm when requirede)
